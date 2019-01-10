@@ -131,12 +131,17 @@ public class ModelScennerImpl implements ModelScenner {
 				fkMetadata.setJoinType(manyToOneAnnotation.joinType());
 				fkMetadata.setRelationType(RelationType.ManyToOne);
 			}
+			else if(annotation instanceof OneToMany) {
+				if(fkMetadata == null) fkMetadata = new ForeignKeyMetadata(field);
+				OneToMany oneToManyAnnotation = (OneToMany) annotation;
+				fkMetadata.setRelationType(RelationType.OneToMany);
+				fkMetadata.setMappedBy(oneToManyAnnotation.mappedBy());
+			}
 			else if(annotation instanceof OneToOne) {
 				if(fkMetadata == null) fkMetadata = new ForeignKeyMetadata(field);
 				OneToOne oneToOneAnnotation = (OneToOne) annotation;
-				if(oneToOneAnnotation.column() != null) {
-					cAnnotation = oneToOneAnnotation.column();
-				} else {
+				cAnnotation = oneToOneAnnotation.column();
+				if(oneToOneAnnotation.mappedBy() != null && !oneToOneAnnotation.mappedBy().equals("")) {
 					/**
 					 * Ako postoji mappedBy polje, to znaci da je polje koje referencira
 					 * obaj objekat u drugoj tabeli, i da ovaj objekat ne treba dodavati u kolone

@@ -1,6 +1,9 @@
 package com.orm.v_1.RelationshipMapper.test_entities;
 
+import java.util.List;
+
 import com.orm.v_1.RelationshipMapper.annotations.Entity;
+import com.orm.v_1.RelationshipMapper.annotations.OneToMany;
 import com.orm.v_1.RelationshipMapper.annotations.PrimaryKey;
 import com.orm.v_1.RelationshipMapper.annotations.Table;
 
@@ -14,6 +17,9 @@ public class City {
 	private String name;
 	
 	private String postCode;
+	
+	@OneToMany(mappedBy = "city")
+	private List<Address> adresses;
 	
 	public Long getId() {
 		return id;

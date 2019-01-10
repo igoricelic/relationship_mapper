@@ -1,5 +1,7 @@
 package com.orm.v_1.RelationshipMapper.model;
 
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -17,6 +19,8 @@ public class TableMetadata {
 	
 	private List<ColumnMetadata> columns;
 	
+	private List<ForeignKeyMetadata> foreignKeys;
+	
 	private Map<RelationType, List<ForeignKeyMetadata>> foreignKeyMap;
 	
 	private DatabaseMetadata database;
@@ -25,6 +29,7 @@ public class TableMetadata {
 		super();
 		this.entityClass = entityClass;
 		this.columns = new ArrayList<>();
+		this.foreignKeys = new ArrayList<>();
 		this.foreignKeyMap = new HashMap<>();
 	}
 	
@@ -83,6 +88,14 @@ public class TableMetadata {
 		this.foreignKeyMap = foreignKeyMap;
 	}
 	
+	public List<ForeignKeyMetadata> getForeignKeys() {
+		return foreignKeys;
+	}
+	
+	public void setForeignKeys(List<ForeignKeyMetadata> foreignKeys) {
+		this.foreignKeys = foreignKeys;
+	}
+	
 	public boolean addColumn (ColumnMetadata mColumn) {
 		if(mColumn == null) return false;
 		this.columns.add(mColumn);
@@ -98,7 +111,11 @@ public class TableMetadata {
 			this.foreignKeyMap.put(fkMetadata.getRelationType(), fKeyMetadatas);
 		}
 		if(fkMetadata.getRelationType() == RelationType.ManyToOne) this.addColumn(fkMetadata);
-		if(fkMetadata.getRelationType() == RelationType.OneToOne) this.addColumn(fkMetadata);
+		if(fkMetadata.getRelationType() == RelationType.OneToMany) {
+			this.foreignKeys.add(fkMetadata);
+		}
+		if(fkMetadata.getRelationType() == RelationType.OneToOne && (fkMetadata.getMappedBy() == null || fkMetadata.getMappedBy().equals(""))) this.addColumn(fkMetadata);
+		else if(fkMetadata.getRelationType() == RelationType.OneToOne) this.foreignKeys.add(fkMetadata);
 		fKeyMetadatas.add(fkMetadata);
 		fkMetadata.setTableMetadata(this);
 		return true;

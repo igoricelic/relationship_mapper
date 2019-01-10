@@ -1,12 +1,14 @@
 package com.orm.v_1.RelationshipMapper.test_entities;
 
 import java.util.Date;
+import java.util.List;
 
 import com.orm.v_1.RelationshipMapper.annotations.Column;
 import com.orm.v_1.RelationshipMapper.annotations.Entity;
 import com.orm.v_1.RelationshipMapper.annotations.ForeignKey;
 import com.orm.v_1.RelationshipMapper.annotations.JoinType;
 import com.orm.v_1.RelationshipMapper.annotations.ManyToOne;
+import com.orm.v_1.RelationshipMapper.annotations.OneToMany;
 import com.orm.v_1.RelationshipMapper.annotations.OneToOne;
 import com.orm.v_1.RelationshipMapper.annotations.PrimaryKey;
 import com.orm.v_1.RelationshipMapper.annotations.SqlType;
@@ -35,6 +37,9 @@ public class User {
 	@ForeignKey(name = "fk_tax_number_of_user")
 	@OneToOne(column = @Column(name = "tax_number_id", nullable = true), joinType = JoinType.LEFT)
 	private TaxNumber taxNumber;
+	
+	@OneToMany(mappedBy = "user")
+	private List<Book> books;
 
 	public Long getId() {
 		return id;
@@ -82,6 +87,14 @@ public class User {
 	
 	public void setTaxNumber(TaxNumber taxNumber) {
 		this.taxNumber = taxNumber;
+	}
+	
+	public List<Book> getBooks() {
+		return books;
+	}
+	
+	public void setBooks(List<Book> books) {
+		this.books = books;
 	}
 
 	@Override

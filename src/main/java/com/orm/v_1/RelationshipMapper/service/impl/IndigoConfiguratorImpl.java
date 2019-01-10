@@ -14,7 +14,7 @@ public class IndigoConfiguratorImpl implements IndigoConfigurator {
 	
 	private ConnectionPoolEndPoint connectionPoolEndPoint;
 	
-	private int maxFetchDepth = 2;
+	private int maxFetchDepth = 5;
 	
 	public IndigoConfiguratorImpl(List<Class<?>> entities) {
 		ModelScenner scenner = new ModelScennerImpl();

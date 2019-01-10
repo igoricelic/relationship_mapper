@@ -1,9 +1,12 @@
 package com.orm.v_1.RelationshipMapper.test_entities;
 
+import java.util.List;
+
 import com.orm.v_1.RelationshipMapper.annotations.Column;
 import com.orm.v_1.RelationshipMapper.annotations.Entity;
 import com.orm.v_1.RelationshipMapper.annotations.ForeignKey;
 import com.orm.v_1.RelationshipMapper.annotations.ManyToOne;
+import com.orm.v_1.RelationshipMapper.annotations.OneToMany;
 import com.orm.v_1.RelationshipMapper.annotations.PrimaryKey;
 import com.orm.v_1.RelationshipMapper.annotations.Table;
 
@@ -21,6 +24,9 @@ public class Address {
 	private String street;
 	
 	private Integer number;
+	
+	@OneToMany(mappedBy = "address")
+	private List<User> users;
 
 	public Long getId() {
 		return id;
@@ -52,6 +58,14 @@ public class Address {
 	
 	public void setNumber(Integer number) {
 		this.number = number;
+	}
+	
+	public List<User> getUsers() {
+		return users;
+	}
+	
+	public void setUsers(List<User> users) {
+		this.users = users;
 	}
 
 	@Override

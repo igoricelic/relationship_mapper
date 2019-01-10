@@ -3,6 +3,7 @@ package com.orm.v_1.RelationshipMapper.test_entities;
 import java.util.Date;
 
 import com.orm.v_1.RelationshipMapper.annotations.Entity;
+import com.orm.v_1.RelationshipMapper.annotations.OneToOne;
 import com.orm.v_1.RelationshipMapper.annotations.PrimaryKey;
 import com.orm.v_1.RelationshipMapper.annotations.Table;
 
@@ -16,6 +17,9 @@ public class TaxNumber {
 	private Date createdAt;
 	
 	private String number;
+	
+	@OneToOne(mappedBy = "taxNumber")
+	private User user;
 
 	public Long getId() {
 		return id;

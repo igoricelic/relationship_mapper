@@ -36,6 +36,7 @@ public class BasicStringQueryProviderImpl implements BasicStringQueryProvider {
 	@Override
 	public <T> String provideReadQuery(TableMetadata tableMetadata, WhereSpecification<T> whereClause, int maxDepthLevel) {
 		String query = "SELECT " + columnsAsSubQuery(tableMetadata, maxDepthLevel) + relationsAsSubQuery(tableMetadata, maxDepthLevel);
+		if(whereClause != null) query = query + " WHERE " + whereClause.getWhereClause();
 		return query;
 	}
 	
@@ -57,7 +58,6 @@ public class BasicStringQueryProviderImpl implements BasicStringQueryProvider {
 				if(columnMetadata.isForeignId() && currDepthLevel < maxDepthLevel) dataToProcessing.add(new Struct(currDepthLevel+1, ((ForeignKeyMetadata)columnMetadata).getRefTable()));
 			}
 		}
-		System.out.println(">>> "+sbColumns.toString());
 		return sbColumns.toString();
 	}
 	
@@ -88,7 +88,6 @@ public class BasicStringQueryProviderImpl implements BasicStringQueryProvider {
 				}
 			}
 		}
-		System.out.println(">>> "+stringBuilder.toString());
 		return stringBuilder.toString();
 	}
 	
